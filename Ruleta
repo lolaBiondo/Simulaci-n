@@ -1,0 +1,54 @@
+import random
+from tkinter import messagebox
+import numpy as np
+import matplotlib.pyplot as plt
+import collections
+
+tiradas = 0
+numeros_ruleta = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+                  26, 27, 28, 29, 30, 31, 32, 33, 35, 35, 36]
+numeros_salidos = []
+
+def tirada():
+    global tiradas
+    numero = random.randint(0, 36)
+    if numero in numeros_ruleta:
+        numeros_salidos.append(numero)
+        tiradas += 1
+    print("Tirada:", tiradas, "Número salido:", numero)
+    # time.sleep(1.0)
+
+
+def promediarLista(lista):
+    sum = 0.0
+    for i in range(0, len(lista)):
+        sum = sum + lista[i]
+
+    return sum / len(lista)
+
+
+while tiradas < 1500:
+    tirada()
+freq_absoulta = collections.Counter(numeros_salidos)
+freq_relativa = {k: v/tiradas for k, v in freq_absoulta.items()}
+
+# ejemplo con cartel
+# rta = messagebox.askyesno(message="¿Desea jugar?", title="Ruleta")
+# while rta:
+#    tirada()
+#    rta = messagebox.askyesno(message="¿Desea jugar?", title="Ruleta")
+
+print("Números salidos:", numeros_salidos)
+print("Promedio = " + str(promediarLista(numeros_salidos)))
+#print(freq_absoulta)
+#print(freq_relativa)
+plt.stem(freq_absoulta.keys(), freq_absoulta.values(), use_line_collection=True)
+plt.ylabel("Frecuencia Absoluta")
+plt.xlabel("Numeros de Ruleta")
+plt.title("Simulador de Ruleta")
+plt.show()
+plt.stem(freq_relativa.keys(), freq_relativa.values(), use_line_collection=True)
+plt.title("Simulador de Ruleta")
+plt.ylabel("Frecuencia Relativa")
+plt.xlabel("Numeros de Ruleta")
+plt.show()
